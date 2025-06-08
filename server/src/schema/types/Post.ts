@@ -1,7 +1,8 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { User } from "./User";
 import { Category } from "./Category";
-import { PostStatus } from "./PostStatus";
+import { PostStatus } from "../enums/PostStatus";
+import { Node } from "../interfaces/Node";
 
 type Args = {
   id: string
@@ -12,10 +13,7 @@ type Args = {
 }
 
 @ObjectType({ description: "ブログ投稿を表します" })
-export class Post {
-  @Field(type => ID)
-  id: string
-
+export class Post extends Node {
   @Field()
   title: string
 
@@ -29,7 +27,7 @@ export class Post {
   status: PostStatus
 
   constructor(args: Args) {
-    this.id = args.id
+    super(args.id)
     this.title = args.title
     this.author = args.author
     this.categories = args.categories

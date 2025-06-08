@@ -1,11 +1,9 @@
 import { Field, ID, Int, ObjectType } from "type-graphql";
 import { Post } from "./Post";
+import { Node } from "../interfaces/Node";
 
 @ObjectType({ description: "アプリケーションのユーザーを指す" })
-export class User {
-  @Field(type => ID, { description: "ユーザーの一意なID" })
-  id: string
-
+export class User extends Node {
   @Field({ description: "ユーザーのフルネーム" })
   name: string
 
@@ -16,7 +14,7 @@ export class User {
   posts: Post[]
 
   constructor (id: string, name: string, posts: Post[]) {
-    this.id = id,
+    super(id)
     this.name = name,
     this.posts = posts
   }
