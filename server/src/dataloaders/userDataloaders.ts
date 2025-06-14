@@ -2,6 +2,7 @@ import DataLoader from "dataloader";
 import { Post } from "../schema/types/Post";
 import { User } from "../schema/types/User";
 import { UserService } from "../services/UserService";
+import { PostService } from "../services/PostService";
 
 const batchUsersByIds = async (
   ids: readonly string[],

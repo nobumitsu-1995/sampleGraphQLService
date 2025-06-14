@@ -1,6 +1,7 @@
 import { ApolloServer } from 'apollo-server-express'
 import express from 'express'
 import { buildSchema } from 'type-graphql'
+import { Container } from 'typedi'
 
 const main = async () => {
   const app = express()
@@ -10,6 +11,7 @@ const main = async () => {
     resolvers: [
       () => {}
     ],
+    container: Container,
     emitSchemaFile: true,
   })
 

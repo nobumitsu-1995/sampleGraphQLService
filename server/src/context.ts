@@ -1,6 +1,7 @@
 import { createPostByUserIdLoader, createUserByIdLoader } from "./dataloaders/userDataloaders"
 import { Container } from 'typedi'
 import { UserService } from "./services/UserService"
+import { PostService } from "./services/PostService"
 
 export interface MyContext {
   req: Request
