@@ -2,6 +2,8 @@ import { ApolloServer } from 'apollo-server-express'
 import express from 'express'
 import { buildSchema } from 'type-graphql'
 import { Container } from 'typedi'
+import { createContext } from './context'
+import { GraphQLError, GraphQLFormattedError } from 'graphql'
 
 const main = async () => {
   const app = express()
@@ -16,7 +18,28 @@ const main = async () => {
   })
 
   const server = new ApolloServer({
-    schema
+    schema,
+    context: createContext,
+    formatError: (error: GraphQLError): GraphQLFormattedError => {
+      console.error("GraphQL Error Occurred:", JSON.stringify(error, null, 2))
+
+      if (process.env.NODE_ENV !== 'production') {
+        return error.toJSON()
+      }
+
+      if (!error.extensions?.code) {
+        return {
+          message: 'Internal server error. Please try again later.',
+        }
+      }
+
+      return {
+        message: error.message,
+        locations: error.locations,
+        path: error.path,
+        extensions: { code: error.extensions.code },
+      }
+    }
   })
 
   await server.start()
